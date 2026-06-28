@@ -1,40 +1,49 @@
-# Load Data Description
+# Dataset Description (Updated for Revision)
 
-## Overview
-This dataset contains updated load data for the IEEE 37-node distribution system test case, used in the research on distribution system restoration considering risk mitigation in extreme events.
+This directory contains the updated load data and subsequent fault scenario sets used in the case studies for evaluating the distribution system restoration model.
 
-## Data Source
-**Original Reference:**
-> C. Chen, J. Wang, F. Qiu et al., "Resilient distribution system by microgrids formation after natural disasters", IEEE Trans. Smart Grid, vol. 7, no. 2, pp. 958-966, 2016.
+---
 
-## Modifications
-The load data has been modified with the following assumptions:
-- **Time variation**: Not considered (static load)
-- **Uncertainty**: Not considered (deterministic values)
-- **System size**: 37 nodes
+## 1. System Load Data
 
-## Data Format
+### IEEE 37-Node System
+- **Total Active Load**: 932.34 kW
+- **Total Reactive Load**: 540.77 kVar
+- **Modifications**: Time-variation and uncertainty are not considered (static and deterministic).
 
-### Active Power Load (PL37)
-- **Unit**: kW (kilowatts)
-- **Total**: 987.2 kW
-- **Array length**: 37 elements
+### IEEE 123-Node System (Newly Added)
+- **Total Active Load**: 3490.00 kW
+- **Total Reactive Load**: 1910.00 kVar
+- **Modifications**: Time-variation and uncertainty are not considered.
 
-### Reactive Power Load (QL37)
-- **Unit**: kVar (kilovolt-ampere reactive)
-- **Total**: 540.77 kVar
-- **Array length**: 37 elements
+---
 
-## File Formats Available
-1. **Python** (`load_data.py`): Direct import for Python scripts
-2. **CSV** (`load_data.csv`): Compatible with Excel, MATLAB, Python pandas
-3. **JSON** (`load_data.json`): Universal format with metadata
-4. **MATLAB** (`load_data.mat`): Native MATLAB format (optional)
+## 2. Subsequent Fault Scenario Sets (IEEE 123-Node System)
 
-## Usage Example
+To model the uncertainty of extreme events, **5 sets of subsequent fault scenarios** are provided. These scenarios represent additional line outages that could occur during the restoration process, along with their transition probabilities.
 
-### Python
+### Summary of Scenario Sets
+| Scenario Set | Number of Scenarios | Key Characteristics / Purpose |
+| :--- | :---: | :--- |
+| **Set 1** | 10 | Low-cardinality baseline scenarios |
+| **Set 2** | 10 | Alternative 10-scenario validation set |
+| **Set 3** | 30 | Medium-cardinality scenario set |
+| **Set 4** | 30 | Alternative 30-scenario validation set |
+| **Set 5** | 50 | High-cardinality set for comprehensive risk evaluation |
+
+---
+
+## 💻 Usage Example
+
+You can easily import both load data and scenario sets in Python:
+
 ```python
-from data.load_data import PL37, QL37
-print(f"Node 1 Active Load: {PL37[0]} kW")
-print(f"Node 1 Reactive Load: {QL37[0]} kVar")
+# Import system load
+from data.load_data import PL37, QL37, PL123, QL123
+
+# Import subsequent fault scenarios
+from data.fault_scenarios import SET_1, SET_3, SET_5
+
+# Example: Accessing Scenario Set 1
+for item in SET_1[:3]:
+    print(f"Scenario {item['scenario']} (Prob: {item['probability']}): Faulted Lines -> {item['faulted_lines']}")
